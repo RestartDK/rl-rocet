@@ -155,33 +155,3 @@ class RocketEnv(gym.Env):
         Clean up resources.
         """
         cv2.destroyAllWindows()
-
-
-if __name__ == "__main__":
-    # Test the environment
-    env = RocketEnv(task='hover', render_mode='human')
-    
-    # Verify environment with gym's checker
-    from gymnasium.utils.env_checker import check_env
-    check_env(env)
-    
-    # Print spaces
-    print("Observation Space:", env.observation_space)
-    print("Action Space:", env.action_space)
-    
-    # Test episode with normalization verification
-    obs, info = env.reset()
-    print("\nInitial Observation (normalized):", obs)
-    print("Observation in bounds:", env.observation_space.contains(obs))
-    
-    for _ in range(100):
-        action = env.action_space.sample()  # random action
-        obs, reward, terminated, truncated, info = env.step(action)
-        if _ == 0:  # Print first step for verification
-            print("\nFirst Step Observation (normalized):", obs)
-            print("Observation in bounds:", env.observation_space.contains(obs))
-        env.render()
-        if terminated or truncated:
-            obs, info = env.reset()
-    
-    env.close()
